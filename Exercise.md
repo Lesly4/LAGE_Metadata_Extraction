@@ -13,4 +13,16 @@ Unlike standard CSV files, these files are semi-structured and contain multiple 
 [Data]
 
 
-Your task is to design a script that can automatically parse these files and extract key metadata in a structured form.
+Your task is to design a script that can automatically parse these files and extract key metadata in a structured form:
+
+
+Write a script (Python, R, or another language of your choice) that:
+- Reads all .csv files from a given directory
+- Extracts header-level metadata (e.g. project name, experiment name, date)
+- Extracts manifest information
+- Counts the number of samples in the data section
+- Stores the extracted information in a structured format (JSON file).
+- Create a Metadata Summary Table (File name,	Project name,	Experiment name,	Date,	Manifest ID,	Number of samples)
+
+
+
