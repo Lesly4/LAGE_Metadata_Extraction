@@ -96,14 +96,16 @@ def count_samples(file_path):
         return 0
 
 
-def process_all_csv_files(directory_path):
+def process_all_csv_files(directory_path, output_dir='output_jsons'):
     """
     Process all CSV files in a directory and extract metadata.
-    Returns a list of dictionaries containing extracted information.
+    Saves individual JSON files for each CSV and returns a list for the summary.
     """
     results = []
     
-    # Get all CSV files in the directory
+    # Create output directory if it doesn't exist
+    os.makedirs(output_dir, exist_ok=True)
+    
     csv_files = sorted([f for f in os.listdir(directory_path) if f.endswith('.csv')])
     
     for csv_file in csv_files:
@@ -123,10 +125,17 @@ def process_all_csv_files(directory_path):
             'number_of_samples': num_samples
         }
         
+        # --- NEW LOGIC: Save individual JSON immediately ---
+        # Replace .csv with .json for the filename
+        json_filename = os.path.splitext(csv_file)[0] + '.json'
+        json_path = os.path.join(output_dir, json_filename)
+        
+        with open(json_path, 'w') as f:
+            json.dump(file_info, f, indent=2)
+            
         results.append(file_info)
     
     return results
-
 
 def create_summary_table(results):
     """
@@ -152,28 +161,19 @@ def create_summary_table(results):
     return pd.DataFrame(summary_data)
 
 
-def save_results(results, summary_table, output_dir=None):
+def save_results(summary_table, output_dir=None):
     """
-    Save results to JSON and CSV files.
-    If output_dir is None, saves to the current working directory.
+    Now only saves the master CSV summary table.
     """
     if output_dir is None:
         output_dir = '.'
     
-    # Create output directory if it doesn't exist
     os.makedirs(output_dir, exist_ok=True)
-    
-    # Save JSON file with detailed results
-    json_output_path = os.path.join(output_dir, 'metadata_extraction_results.json')
-    with open(json_output_path, 'w') as f:
-        json.dump(results, f, indent=2)
-    print(f"\nSaved detailed results to: {json_output_path}")
     
     # Save CSV summary table
     csv_output_path = os.path.join(output_dir, 'metadata_summary_table.csv')
     summary_table.to_csv(csv_output_path, index=False)
-    print(f"Saved summary table to: {csv_output_path}")
+    print(f"\nSaved summary table to: {csv_output_path}")
     
-    return json_output_path, csv_output_path
-
+    return csv_output_path
 
