@@ -1,4 +1,4 @@
-import Extractor_Test
+import Extractor_BeadStudio
 import argparse  
 
 
@@ -18,17 +18,17 @@ def main_Multi_file():
         # Process all CSV files
         # Since the process_all_csv_files function already has a 'continue' inside it,
         # so it won't crash on a bad file, it will just skip it.
-        results = Extractor_Test.process_all_csv_files(directory_path, output_dir)
+        results = Extractor_BeadStudio.process_all_csv_files(directory_path, output_dir)
 
         if not results:
             print("No valid BeadStudio files were found to process.")
             return
         
         # Create summary table
-        summary_table = Extractor_Test.create_summary_table(results)
+        summary_table = Extractor_BeadStudio.create_summary_table(results)
 
         # Save results
-        Extractor_Test.save_results(summary_table, output_dir)
+        Extractor_BeadStudio.save_results(summary_table, output_dir)
 
         print("\nBatch Processing Complete.")
     except Exception as e:
@@ -52,13 +52,13 @@ def main_Single_file():
     # 4. Run the logic using the terminal inputs
     try:
         # Process one CSV file
-        results = Extractor_Test.one_single_file(args.input_dir, args.output_dir, args.csv_name)
+        results = Extractor_BeadStudio.one_single_file(args.input_dir, args.output_dir, args.csv_name)
         # Create summary table
-        summary_table = Extractor_Test.create_summary_table(results)
+        summary_table = Extractor_BeadStudio.create_summary_table(results)
         # Save results
-        Extractor_Test.save_results(summary_table, args.output_dir)
+        Extractor_BeadStudio.save_results(summary_table, args.output_dir)
     except ValueError as e:
-        # This catches the "Validity File Error" defined in the Extractor module and prints it cleanly
+        # This catches the "Validity File Error" defined in the Extractor module and prints it 
         print(f"\n{e}")
     except Exception as e:
         # This catches any other unexpected error (like permission issues)
@@ -66,4 +66,4 @@ def main_Single_file():
 
 
 if __name__ == '__main__':
-    main_Single_file()
+    main_Multi_file()
