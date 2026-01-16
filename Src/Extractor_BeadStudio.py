@@ -54,7 +54,7 @@ def get_csv_section(file_Input_path, section_name):
             end_idx = i
             break
             
-    # 3. Join the relevant lines and read into pandas
+    # 3. Join 0`    the relevant lines and read into pandas
     section_content = "".join(lines[start_idx + 1 : end_idx])
     return pd.read_csv(io.StringIO(section_content))
 
@@ -168,7 +168,7 @@ def process_all_csv_files(input_dir_path, output_dir_path):
 
     # Get list of CSV files in directory
     csv_files = sorted([f for f in os.listdir(input_dir_path) if f.endswith('.csv')])
-
+    
     # Get the total number of files for progress tracking
     total_files = len(csv_files)
     processed_count = 0
@@ -201,7 +201,6 @@ def process_all_csv_files(input_dir_path, output_dir_path):
             'file_path': file_Input_path,
             'metadata': metadata,
             'manifest_id': manifest_id,
-            'number_of_samples': num_samples,
             'number_of_samples': len(sample_details), # Count is now derived from the list length
             'samples': sample_details  # This adds the key-value pairs for every sample
         }
@@ -258,20 +257,19 @@ def one_single_file(input_file_dir_path, output_dir_path, csv_file_name):
     num_samples = count_samples(file_Input_path)
     sample_details = extract_sample_data(file_Input_path)
 
-    # Combine all information    
+    # 3. Combine all information    
     file_info = {
             'file_type': 'BeadStudio',
             'file_name': csv_file_name,
             'file_path': file_Input_path,
             'metadata': metadata,
             'manifest_id': manifest_id,
-            'number_of_samples': num_samples,
             'number_of_samples': len(sample_details), # Count is now derived from the list length
             'samples': sample_details  # This adds the key-value pairs for every sample
         }
 
-    # Save JSON
-    os.makedirs(output_dir_path, exist_ok=True)    
+    # 4. Save JSON
+    
     json_filename = os.path.splitext(csv_file_name)[0] + '.json'
     json_path = os.path.join(output_dir_path, json_filename)
         
@@ -283,7 +281,6 @@ def one_single_file(input_file_dir_path, output_dir_path, csv_file_name):
     return results
 
 
-# --- 4. SUMMARY  ---
 
 def create_summary_table(results):
     """
@@ -311,7 +308,7 @@ def create_summary_table(results):
 
 def save_results(summary_table, output_dir_path):
     """
-    Now only saves the master CSV summary table.
+    Saves the master CSV summary table.
     """
     if output_dir_path is None:
         output_dir_path = '.'
@@ -324,4 +321,3 @@ def save_results(summary_table, output_dir_path):
     print(f"\nSaved summary table to: {csv_output_path}")
     print(f"json output files saved to: {output_dir_path}")
 
-    return csv_output_path

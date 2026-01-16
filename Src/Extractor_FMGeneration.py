@@ -110,7 +110,7 @@ def one_single_file(input_dir_path, output_dir_path, csv_file_name):
     """
      # Full path to the input file
     file_Input_path = os.path.join(input_dir_path, csv_file_name)
-
+    results = []
     # 1. VALIDATION CHECK
     if not is_fm_generation_report(file_Input_path):
         raise ValueError(f" Process aborted: {csv_file_name} is not a valid FM-Generation Report.")
@@ -118,14 +118,13 @@ def one_single_file(input_dir_path, output_dir_path, csv_file_name):
     print(f"FM Generation Report validation completed successfully. Extracting data from {csv_file_name}")
     
     # 2. Extraction 
-    results = []
      # Extract ORID ID for Thermal file name 
     Orid_id = extract_orid_from_filename(csv_file_name)
+
     # Extract everything
     all_extracted_parts = extract_all_sections(file_Input_path)
 
-    # Combine all information
-
+    # 3. Combine all information and Build JSON file
     file_info = {
         'file_type': 'FM-Generation Report',
         'ORID': Orid_id,

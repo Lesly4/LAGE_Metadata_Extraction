@@ -281,7 +281,7 @@ def main_Single_file_FMGeneration():
         print(f"\nAn unexpected error occurred: {e}")
 
 if __name__ == '__main__':
-    main_Single_file_FMGeneration()       
+    main_Multi_file_BeadStudio()       
 
 
 
