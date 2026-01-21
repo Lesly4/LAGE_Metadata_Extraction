@@ -92,8 +92,7 @@ def extract_orid_from_filename(csv_file_name):
         dict: {'orid': str} if ORID is found, otherwise an empty dict.
     """
     # Regex pattern: look for ORID followed by digits 
-    pattern =  r"(ORID[0-9A-Za-z]+)(?:-|$)"
-
+    pattern = r"(ORID\d{4})"
     match = re.search(pattern, csv_file_name)
     if match:
         return  match.group(1)
@@ -187,7 +186,7 @@ def process_all_csv_files(input_dir_path, output_dir_path):
         metadata = extract_metadata(file_Input_path)
         Orid_id = extract_orid_from_filename(csv_file_name)
         if Orid_id:
-            metadata["ORID"] = Orid_id
+            metadata["proposal_id"] = Orid_id
         manifest_id = extract_manifest_info(file_Input_path)
         num_samples = count_samples(file_Input_path)
         sample_details = extract_sample_data(file_Input_path)
@@ -252,7 +251,7 @@ def one_single_file(input_file_dir_path, output_dir_path, csv_file_name):
     metadata = extract_metadata(file_Input_path)
     Orid_id = extract_orid_from_filename(csv_file_name)
     if Orid_id:
-            metadata["ORID"] = Orid_id
+            metadata["proposal_id"] = Orid_id
     manifest_id = extract_manifest_info(file_Input_path)
     num_samples = count_samples(file_Input_path)
     sample_details = extract_sample_data(file_Input_path)

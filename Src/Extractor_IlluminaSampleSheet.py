@@ -47,7 +47,7 @@ def extract_metadata(file_Input_path):
 
 def extract_orid_from_filename(csv_file_name):
     """Extracts the ORID ID from the filename using the standard regex."""
-    pattern = r"(ORID[0-9A-Za-z]+)(?:-|$)"
+    pattern = r"(ORID\d{4})"
     match = re.search(pattern, csv_file_name)
     return match.group(1) if match else None
 
@@ -101,7 +101,7 @@ def one_single_file(input_file_dir_path, output_dir_path, csv_file_name):
 
     #  ORID and File Info
     orid = extract_orid_from_filename(csv_file_name)
-    if orid: metadata["orid"] = orid
+    if orid: metadata["proposal_id"] = orid
 
     #  Detailed Sample Data from [Data]
     data_df = get_csv_section(file_Input_path, '[Data]')
@@ -159,7 +159,7 @@ def create_summary_table(results):
             'File Name': result['file_name'],
             'Experiment Name': meta.get('experiment_name', 'N/A'),
             'Date': meta.get('date', 'N/A'),
-            'ORID': meta.get('orid', 'N/A'),
+            'Proposal ID': meta.get('proposal_id', 'N/A'),
             'Workflow': meta.get('workflow', 'N/A'),
             'Num Samples': result['number_of_samples']
         })
